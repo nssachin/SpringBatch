@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import ch.qos.logback.core.net.SyslogOutputStream;
 
 @Configuration
 public class JobConfiguration {
@@ -34,12 +33,8 @@ public class JobConfiguration {
 	}
 	
 	@Bean
-	public ItemWriter<String> itemWriter() {
-		return items -> {
-			for (String item : items) {
-				System.out.println(item);
-			}
-		};
+	public SysOutItemWriter itemWriter() {
+		return new SysOutItemWriter();
 	}
 	
 	@Bean
@@ -53,7 +48,7 @@ public class JobConfiguration {
 	
 	@Bean
 	public Job statefulJob() {
-		return jobBuilderFactory.get("statefullJob")
+		return jobBuilderFactory.get("statefullJob2")
 								.start(step1())
 								.build();
 	}
